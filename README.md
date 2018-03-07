@@ -1,143 +1,69 @@
 # Relatório exercício 1
-
+Todas as medias de tempo foram feitas utilizando o comando `time` nos computadores da sala cc03 do IC3.
 ## Compilações com apenas um arquivo primo.c
-Foram feitas as seguintes compilações, acompanhadas dos respectivos resultados usando o comando `time` nos computadores da sala cc03 do IC3.
-* `gcc primo.c -o primo`
+Foram feitas compilações com as flags:
 ```
-real	0m0.293s
-user	0m0.292s
-sys	0m0.000s
-```
-* `gcc primo.c -o primo -O0`
-```
+* Flag -O0
 real	0m0.298s
-user	0m0.296s
-sys	0m0.001s
-```
-* `gcc primo.c -o primo -O1`
-```
+* Flag -O1
 real	0m0.265s
-user	0m0.263s
-sys	0m0.001s
-```
-* `gcc primo.c -o primo -O2`
-```
+* Flag -O2
 real	0m0.297s
-user	0m0.297s
-sys	0m0.000s
-```
-* `gcc primo.c -o primo -O3`
-```
+* Flag -O3
 real	0m0.295s
-user	0m0.291s
-sys	0m0.003s
-```
-* `gcc primo.c -o primo -mtune=intel`
-```
+* Flag -mtune=intel
 real	0m0.295s
-user	0m0.291s
-sys	0m0.003s
 ```
-
 É possível ver que o melhor tempo foi obtido com a compilação utilizando `-O1`, embora esperássemos que as flags de maiores otimizações como `-O3` e `-mtune=intel` apresentariam melhores resultados. Isso provavelmente se deve as características do código que não tornam as otimizações do gcc tão eficientes quanto deveriam. 
 
 ## Compilações com dois arquivos `main.c` e `primo.c`
-Foram feitas as seguintes compilações, acompanhadas dos respectivos resultados usando o comando `time` nos computadores da sala cc03 do IC3.
-O processo de compilação foi automatizado com o uso de um Makefile.
+O processo de compilação foi automatizado com o uso de um Makefile. Foram feitas compilações com as flags:
+```
 * Flag `-O0`
-```
 real	0m0.285s
-user	0m0.285s
-sys	0m0.000s
-```
 * Flag `-O1`
-```
 real	0m0.255s
-user	0m0.255s
-sys	0m0.000s
-```
 * Flag `-O2`
-```
 real	0m0.260s
-user	0m0.258s
-sys	0m0.001s
-```
 * Flag `-O3`
-```
 real	0m0.259s
-user	0m0.258s
-sys	0m0.001s
-```
 * Flag `-mtune=intel -01` (melhor resultado com mtune)
-```
 real	0m0.279s
-user	0m0.278s
-sys	0m0.001s
 ```
 Novamente, o melhor resultado foi obtido com a flag `-O1`, embora esperássemos que fosse com o conjunto `-O3 -mtune=intel`. Por outro lado, a diferença de desempenho para as diferentes flags caiu em relação a quando tínhamos apenas um arquivo, isso indica que a separação das funções pode ter influenciado na otimização do gcc.
 
 ## Utilizando o mesmo algoritmo para calcular quantos primos existem entre 1 e n, testando de 1 em 1 (testes com n = 100000)
-- Utilizando 2 arquivos, `main.c` e `calc_primo.c`, foram obtidos os resultados:
-* Flag `-O0`
+- Em relação aos arquivos estarem separados ou não, desta vez os resultados foram próximos o suficiente para supormos que isto não afetou significativamente o desempenho, de forma que aqui estão representados apenas os resultados utilizando 2 arquivos, `main.c` e `calc_primo.c`:
 ```
+* Flag `-O0`
 real	0m1.217s
-user	0m1.215s
-sys	0m0.001s
-```
 * Flag `-O1`
-```
 real	0m1.094s
-user	0m1.092s
-sys	0m0.001s
-```
 * Flag `-O2`
-```
 real	0m1.096s
-user	0m1.093s
-sys	0m0.002s
-```
 * Flag `-O3`
-```
 real	0m1.093s
-user	0m1.092s
-sys	0m0.000s
-```
 * Flag `-mtune=intel -00` (melhor resultado com mtune)
-```
 real	0m1.225s
-user	0m1.222s
-sys	0m0.001s
 ```
+Nesse conjunto de testes, vemos que os reultados obtidos com as flags `-O3` foram o melhores, porém as demais flags `-O1` e `-O2` conseguiram resultados bem parecidos. A flag `-mtune`, por outro lado, novamente piorou os resultados, indicando que esta otimização não é boa para esse tipo de algoritmo. 
 
-- Utilizando apenas 1 arquivo, `main.c`, foram obtidos os resultados:
+## Utilizando o mesmo algoritmo para calcular quantos primos existem entre 1 e n, testando apenas ímpares (testes com n = 100000)
+- Em relação aos arquivos estarem separados ou não, desta vez os resultados foram próximos o suficiente para supormos que isto não afetou significativamente o desempenho, de forma que aqui estão representados apenas os resultados utilizando 2 arquivos, `main.c` e `calc_primo.c`:
+```
 * Flag `-O0`
-```
-real	0m1.215s
-user	0m1.213s
-sys	0m0.001s
-```
+real	0m0.836s
 * Flag `-O1`
-```
-real	0m1.096s
-user	0m1.092s
-sys	0m0.001s
-```
+real	0m0.782s
 * Flag `-O2`
-```
-real	0m1.096s
-user	0m1.093s
-sys	0m0.002s
-```
+real	0m0.787s
 * Flag `-O3`
-```
-real	0m1.096s
-user	0m1.094s
-sys	0m0.001s
-```
+real	0m0.785s
 * Flag `-mtune=intel -00` (melhor resultado com mtune)
+real	0m0.819s
 ```
-real	0m1.218s
-user	0m1.215s
-sys	0m0.001s
-```
-Nesse conjunto de testes, vemos que os reultados obtidos com as flags `-O3` foram o melhores, porém as demais flags `-O1` e `-O2`conseguiram resultados bem parecidos. A flag `-mtune`, por outro lado, novamente piorou os resultados. Em relação aos arquivos estarem separados ou não, desta vez os resultados foram próximos o suficiente para supormos que isto não afetou significativamente o desempenho. 
+Novamente, as flags `-O1`, `-O2` e `-O3` obtiveram os melhores desempenhos ao passo que `-mtune=intel` não foi tão efetiva.
+
+## Análise
+Utilizando o gprof, foi possível notar que, em média, 96.2% do tempo de execução do programa da etapa anterior (contar primos de 1 a n, contando apenas ímpares) é gasto na função que verifica se o número é primo. Dessa forma, essa é a melhor parte do código a ser paralelizada e otimizada. Mesmo com diversas otimizações de paralelização e de compilação, o desempenho desse programa ainda será limitado pelo algoritmo imprementado, que é extremamente ineficiente. 
+Podemos concluir, então, que o desempenho de um programa é afetado por ferramentas de compilação e paralelismo, mas ainda é essencial que o algoritmo implementado seja eficiente, já que este determinará a ordem de grandeza da quantidade de instruções a serem executadas enquanto que as demais otimizações são capazes apenas de diminuir algumas constantes da ordem de grandeza do algoritmo.
